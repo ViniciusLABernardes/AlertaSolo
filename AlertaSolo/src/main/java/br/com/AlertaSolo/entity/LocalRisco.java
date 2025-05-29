@@ -52,6 +52,18 @@ public class LocalRisco {
     @Column(name = "ativo",nullable = false)
     private Boolean ativo;
 
+    @OneToMany(mappedBy = "localRisco", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Sensor> sensores;
+
+    public List<Sensor> getSensores() {
+        return sensores;
+    }
+
+    public void setSensores(List<Sensor> sensores) {
+        this.sensores = sensores;
+    }
+
     public long getIdLocal() {
         return idLocal;
     }

@@ -20,13 +20,33 @@ public class LocalRiscoResponseDto {
         this.ativo = ativo;
     }
 
+    public LocalRiscoResponseDto(long idLocal, String nomeLocal, double latitude, double longitude, String cidade,
+                                 String uf, String grauRisco, Boolean ativo,List<Sensor> sensores) {
+        this.idLocal = idLocal;
+        this.nomeLocal = nomeLocal;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.grauRisco = grauRisco;
+        this.ativo = ativo;
+        this.sensores = sensores;
+    }
+
     private long idLocal;
+
     private String nomeLocal;
+
     private double latitude;
+
     private double longitude;
+
     private String cidade;
+
     private String uf;
+
     private String grauRisco;
+
     private Boolean ativo;
 
     private List<Sensor> sensores;

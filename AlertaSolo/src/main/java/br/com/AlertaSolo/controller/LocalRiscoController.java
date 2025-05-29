@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/localRisco")
+@RequestMapping("/api/local-risco")
 public class LocalRiscoController {
 
     @Autowired
@@ -56,7 +56,7 @@ public class LocalRiscoController {
                 .map(localRisco -> ResponseEntity.ok(
                         new LocalRiscoResponseDto(localRisco.getIdLocal(), localRisco.getNomeLocal(),
                                 localRisco.getLatitude(), localRisco.getLongitude(), localRisco.getCidade(),
-                                localRisco.getUf(), localRisco.getGrauRisco(), localRisco.getAtivo()))
+                                localRisco.getUf(), localRisco.getGrauRisco(), localRisco.getAtivo(),localRisco.getSensores()))
                 )
                 .orElse(ResponseEntity.notFound().build());
     }

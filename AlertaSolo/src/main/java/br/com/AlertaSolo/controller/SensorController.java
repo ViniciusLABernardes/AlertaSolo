@@ -3,6 +3,7 @@ package br.com.AlertaSolo.controller;
 import br.com.AlertaSolo.dto.SensorRequestDto;
 import br.com.AlertaSolo.dto.SensorResponseDto;
 import br.com.AlertaSolo.dto.VerificarRiscoRequestDto;
+import br.com.AlertaSolo.dto.VerificarRiscoResponseDto;
 import br.com.AlertaSolo.entity.LocalRisco;
 import br.com.AlertaSolo.entity.Sensor;
 import br.com.AlertaSolo.exceptions.IdNaoEncontradoException;
@@ -49,7 +50,7 @@ public class SensorController {
         Sensor sensorSalva = sensorService.salvarSensor(sensor, sensorRequestDto.getIdLocalRisco());
         return ResponseEntity.ok(new SensorResponseDto(sensorSalva.getIdSensor(), sensorSalva.getLocalRisco(),
                 sensorSalva.getCodigoEsp32(), sensorRequestDto.getStatus(),
-                sensorRequestDto.getTipoSensor(), sensor.getDataInstalacao()));
+                sensorRequestDto.getTipoSensor(), sensorSalva.getDataInstalacao()));
     }
 
     @Operation(
@@ -80,10 +81,10 @@ public class SensorController {
             }
     )
     @PostMapping("/verificar-risco")
-    public ResponseEntity<String> verificarRisco(
+    public ResponseEntity<VerificarRiscoResponseDto> verificarRisco(
             @Valid @RequestBody VerificarRiscoRequestDto dto) {
-        sensorService.verificarRiscoDeslizamento(dto.getIdLocal(), dto.getUmidade(), dto.getInclinacao(), dto.getTremor());
-        return ResponseEntity.ok("Verificação de risco processada.");
+        VerificarRiscoResponseDto resposta =  sensorService.verificarRiscoDeslizamento(dto.getIdLocal(), dto.getUmidade(), dto.getInclinacao(), dto.getTremor());
+        return ResponseEntity.ok(resposta);
     }
 
     @Operation(

@@ -1,23 +1,25 @@
 package br.com.AlertaSolo.dto;
 
 import br.com.AlertaSolo.entity.LocalRisco;
+import br.com.AlertaSolo.entity.Sensor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class SensorRequestDto {
 
     public SensorRequestDto() {
     }
 
-    public SensorRequestDto(long idLocalRisco, String codigoEsp32, String status, String tipoSensor, LocalDate dataInstalacao) {
+    public SensorRequestDto(long idLocalRisco, String codigoEsp32, String status, String tipoSensor) {
         this.idLocalRisco = idLocalRisco;
         this.codigoEsp32 = codigoEsp32;
         this.status = status;
         this.tipoSensor = tipoSensor;
-        this.dataInstalacao = dataInstalacao;
+
     }
 
     @NotNull(message = "Id do local obrigatório!")
@@ -32,8 +34,6 @@ public class SensorRequestDto {
     @NotBlank(message = "o tipo do sensor é obrigatório")
     private String tipoSensor;
 
-
-    private LocalDate dataInstalacao;
 
 
     public long getIdLocalRisco() {
@@ -68,11 +68,5 @@ public class SensorRequestDto {
         this.tipoSensor = tipoSensor;
     }
 
-    public LocalDate getDataInstalacao() {
-        return dataInstalacao;
-    }
 
-    public void setDataInstalacao(LocalDate dataInstalacao) {
-        this.dataInstalacao = dataInstalacao;
-    }
 }

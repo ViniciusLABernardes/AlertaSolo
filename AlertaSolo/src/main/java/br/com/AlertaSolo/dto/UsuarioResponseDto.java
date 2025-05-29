@@ -18,10 +18,14 @@ public class UsuarioResponseDto {
 
         private LocalDate dataCadastro;
 
+        private String email;
+
+        private String senha;
+
         public UsuarioResponseDto() {
         }
 
-        public UsuarioResponseDto(Long id, String nome, String cpf, Integer idade, String cidade, String uf, LocalDate dataCadastro) {
+        public UsuarioResponseDto(Long id, String nome, String cpf, Integer idade, String cidade, String uf, LocalDate dataCadastro, String email, String senha) {
                 this.id = id;
                 this.nome = nome;
                 this.cpf = cpf;
@@ -29,9 +33,26 @@ public class UsuarioResponseDto {
                 this.cidade = cidade;
                 this.uf = uf;
                 this.dataCadastro = dataCadastro;
+                this.email = email;
+                this.senha = senha;
         }
 
 
+        public String getEmail() {
+                return email;
+        }
+
+        public void setEmail(String email) {
+                this.email = email;
+        }
+
+        public String getSenha() {
+                return senha;
+        }
+
+        public void setSenha(String senha) {
+                this.senha = senha;
+        }
 
         public Long getId() {
                 return id;

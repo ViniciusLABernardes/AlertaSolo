@@ -1,9 +1,11 @@
 package br.com.AlertaSolo.dto;
 
 import br.com.AlertaSolo.entity.LocalRisco;
+import br.com.AlertaSolo.entity.Sensor;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class SensorResponseDto {
 
@@ -20,6 +22,7 @@ public class SensorResponseDto {
             this.dataInstalacao = dataInstalacao;
         }
 
+
         private Long idSensor;
 
         private LocalRisco localRisco;
@@ -31,6 +34,16 @@ public class SensorResponseDto {
         private String tipoSensor;
 
         private LocalDate dataInstalacao;
+
+        private List<Sensor> sensores;
+
+        public List<Sensor> getSensores() {
+            return sensores;
+        }
+
+        public void setSensores(List<Sensor> sensores) {
+            this.sensores = sensores;
+        }
 
         public Long getIdSensor() {
             return idSensor;

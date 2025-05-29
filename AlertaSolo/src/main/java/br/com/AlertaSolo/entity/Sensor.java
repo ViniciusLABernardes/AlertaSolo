@@ -1,6 +1,7 @@
 package br.com.AlertaSolo.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -25,8 +26,9 @@ public class Sensor {
     @Column(name = "id_sensor")
     private long idSensor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_local", nullable = false)
+    @JsonBackReference
     private LocalRisco localRisco;
 
     @Column(name = "codigo_esp32", nullable = false, unique = true)

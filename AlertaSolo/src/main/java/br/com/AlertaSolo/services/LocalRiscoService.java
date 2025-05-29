@@ -72,7 +72,8 @@ public class LocalRiscoService {
                             local.getCidade(),
                             local.getUf(),
                             local.getGrauRisco(),
-                            local.getAtivo()
+                            local.getAtivo(),
+                            local.getSensores()
                             ))
                     .toList();
         } catch (Exception e) {

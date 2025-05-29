@@ -32,19 +32,23 @@ public class UsuarioService {
         usuarioNovo.setCidade(usuario.getCidade());
         usuarioNovo.setUf(usuario.getUf());
         usuarioNovo.setDataCadastro(LocalDate.now());
-        Login loginUsuario = new Login();
-        try {
-            System.out.println("Usuario cadastrado com sucesso!");
-           usuarioRepository.save(usuarioNovo);
-           loginUsuario.setId(usuarioNovo.getIdUsuario());
-           loginUsuario.setEmail(usuario.getEmail());
-           loginUsuario.setSenha(usuario.getSenha());
-           loginRepository.save(loginUsuario);
 
-        }catch (Exception e){
-            System.out.println("Houve um erro ao tentar cadastrar o usuario");
-           e.printStackTrace();
+        Login login = new Login();
+        login.setEmail(usuario.getEmail());
+        login.setSenha(usuario.getSenha());
+
+
+        login.setUsuario(usuarioNovo);
+        usuarioNovo.setLogin(login);
+
+        try {
+            usuarioRepository.save(usuarioNovo);
+            System.out.println("Usuário cadastrado com sucesso!");
+        } catch (Exception e) {
+            System.out.println("Houve um erro ao tentar cadastrar o usuário");
+            e.printStackTrace();
         }
+
         return usuarioNovo;
     }
 

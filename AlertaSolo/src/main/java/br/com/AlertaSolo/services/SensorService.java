@@ -1,6 +1,8 @@
 package br.com.AlertaSolo.services;
 
 
+import br.com.AlertaSolo.dto.VerificarRiscoRequestDto;
+import br.com.AlertaSolo.dto.VerificarRiscoResponseDto;
 import br.com.AlertaSolo.entity.LocalRisco;
 import br.com.AlertaSolo.entity.Sensor;
 import br.com.AlertaSolo.entity.Usuario;
@@ -12,8 +14,10 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SensorService {
@@ -32,6 +36,7 @@ public class SensorService {
                     .orElseThrow(() -> new IdNaoEncontradoException("Local com id " + idLocalRisco + " não encontrado"));
 
             sensor.setLocalRisco(localRisco);
+            sensor.setDataInstalacao(LocalDate.now());
             sensorNova = sensorRepository.save(sensor);
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -55,20 +60,37 @@ public class SensorService {
     }
 
     @Transactional
-    public void verificarRiscoDeslizamento(long idLocal,double umidade, double inclinacao, double tremor) {
-        boolean umidadeAlta = umidade >= 80; //se maior que 80% significa alta saturação no solo
-        boolean inclinacaoPerigosa = inclinacao >= 45; // se inclinação maior que 45(graus) ocorre o risco de escorregamento
-        boolean tremorSignificativo = tremor >= 4.0; // se maior que 4.0 na escala Richter se torna um potencial desestabilizador do solo
+    public VerificarRiscoResponseDto verificarRiscoDeslizamento(Long idLocal, double umidade, double inclinacao, double tremor) {
+        boolean umidadeAlta = umidade > 80;
+        boolean inclinacaoPerigosa = inclinacao > 30;
+        boolean tremorSignificativo = tremor > 5;
+
+        VerificarRiscoResponseDto response = new VerificarRiscoResponseDto();
 
         if (umidadeAlta || inclinacaoPerigosa || tremorSignificativo) {
-            System.out.println("⚠️ RISCO ALTO DETECTADO!");
-            List<Usuario> usuarios = usuarioRepository.findAll();
-            for (Usuario usuario : usuarios) {
-                System.out.println("🔔 Notificar " + usuario.getNome());
+            response.setRiscoAlto(true);
+            response.setMensagem("⚠️ RISCO ALTO DETECTADO!");
+
+            Optional<LocalRisco> optionalLocal = localRiscoRepository.findById(idLocal);
+            if (optionalLocal.isEmpty()) {
+                response.setMensagem("Local não encontrado.");
+                return response;
             }
+            LocalRisco local = optionalLocal.get();
+
+            List<Usuario> usuarios = usuarioRepository.findByCidadeAndUf(local.getCidade(), local.getUf());
+
+            List<String> notificacoes = usuarios.stream()
+                    .map(u -> "🔔 Notificar " + u.getNome() + " em " + u.getCidade() + "/" + u.getUf())
+                    .collect(Collectors.toList());
+
+            response.setNotificacoes(notificacoes);
         } else {
-            System.out.println("✅ Situação estável.");
+            response.setRiscoAlto(false);
+            response.setMensagem("✅ Situação estável.");
         }
+
+        return response;
     }
 
 }
