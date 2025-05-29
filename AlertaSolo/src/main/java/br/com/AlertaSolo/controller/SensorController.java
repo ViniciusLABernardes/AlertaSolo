@@ -87,26 +87,6 @@ public class SensorController {
         return ResponseEntity.ok(resposta);
     }
 
-    @Operation(
-            summary = "Deletar sensor",
-            description = "Remove um sensor do sistema pelo ID.",
-            responses = {
-                    @ApiResponse(responseCode = "204", description = "Sensor deletado com sucesso"),
-                    @ApiResponse(responseCode = "404", description = "Sensor não encontrado", content = @Content)
-            }
-    )
-    @DeleteMapping("/{id}")
-    public ResponseEntity<SensorResponseDto> deletarSensor(
-            @Parameter(description = "ID do sensor", example = "1")
-            @PathVariable long id) {
-        if (sensorService.visualizarDadosSensorEspecifico(id).isPresent()) {
-            try {
-                sensorService.removerSensor(id);
-                return ResponseEntity.noContent().build();
-            } catch (IdNaoEncontradoException e) {
-                return ResponseEntity.notFound().build();
-            }
-        }
-        return ResponseEntity.notFound().build();
-    }
+
+
 }

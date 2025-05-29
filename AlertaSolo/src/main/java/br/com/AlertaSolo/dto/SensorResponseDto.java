@@ -35,15 +35,6 @@ public class SensorResponseDto {
 
         private LocalDate dataInstalacao;
 
-        private List<Sensor> sensores;
-
-        public List<Sensor> getSensores() {
-            return sensores;
-        }
-
-        public void setSensores(List<Sensor> sensores) {
-            this.sensores = sensores;
-        }
 
         public Long getIdSensor() {
             return idSensor;

@@ -44,15 +44,6 @@ public class SensorService {
         return sensorNova;
     }
 
-    public void removerSensor(long id) throws IdNaoEncontradoException {
-        Sensor sensorAchada = sensorRepository.findById(id)
-                .orElseThrow(() -> new IdNaoEncontradoException("Sensor não encontrado"));
-
-        sensorRepository.deleteById(id);
-
-        System.out.println("Sensor: " + sensorAchada.getIdSensor() + ", " + sensorAchada.getCodigoEsp32() + " " + sensorAchada.getDataInstalacao() + " deletado com sucesso!");
-
-    }
 
     public Optional<Sensor> visualizarDadosSensorEspecifico(long id)  {
         return sensorRepository.findById(id);
