@@ -31,7 +31,7 @@ public class UsuarioResponseDto {
                 this.dataCadastro = dataCadastro;
         }
 
-        // Getters e Setters
+
 
         public Long getId() {
                 return id;

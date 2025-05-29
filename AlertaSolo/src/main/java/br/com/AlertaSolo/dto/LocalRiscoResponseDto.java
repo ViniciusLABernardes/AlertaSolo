@@ -1,5 +1,4 @@
 package br.com.AlertaSolo.dto;
-package br.com.AlertaSolo.dto;
 
 import br.com.AlertaSolo.entity.Sensor;
 import java.util.List;

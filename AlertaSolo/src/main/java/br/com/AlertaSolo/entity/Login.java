@@ -11,7 +11,7 @@ public class Login {
 
     }
 
-    public Login(Long id, Usuario usuario, String email, String senha) {
+    public Login(long id, Usuario usuario, String email, String senha) {
         this.id = id;
         this.usuario = usuario;
         this.email = email;
@@ -19,7 +19,7 @@ public class Login {
     }
 
     @Id
-    private Long id;
+    private long id;
 
     @OneToOne
     @MapsId
@@ -37,7 +37,7 @@ public class Login {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

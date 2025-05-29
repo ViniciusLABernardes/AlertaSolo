@@ -1,7 +1,7 @@
 package br.com.AlertaSolo.dto;
 
 import jakarta.validation.constraints.*;
-import java.time.LocalDate;
+
 
 public class UsuarioRequestDto {
 
@@ -25,18 +25,44 @@ public class UsuarioRequestDto {
     @Size(min = 2, max = 6, message = "A UF deve ter entre 2 e 6 caracteres")
     private String uf;
 
+    @NotBlank(message = "O email é obrigatório")
+    private String email;
+
+    @NotBlank(message = "A senha é obrigatório")
+    private String senha;
+
+
+
 
 
     public UsuarioRequestDto() {
     }
 
-    public UsuarioRequestDto(String nome, String cpf, Integer idade, String cidade, String uf) {
+    public UsuarioRequestDto(String nome, String cpf, Integer idade, String cidade, String uf, String email, String senha) {
         this.nome = nome;
         this.cpf = cpf;
         this.idade = idade;
         this.cidade = cidade;
         this.uf = uf;
+        this.email = email;
+        this.senha = senha;
 
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getNome() {

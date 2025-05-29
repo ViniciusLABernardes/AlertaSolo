@@ -1,6 +1,7 @@
 package br.com.AlertaSolo.services;
 
 
+import br.com.AlertaSolo.dto.LocalRiscoResponseDto;
 import br.com.AlertaSolo.entity.LocalRisco;
 import br.com.AlertaSolo.exceptions.IdNaoEncontradoException;
 import br.com.AlertaSolo.repository.LocalRiscoRepository;
@@ -29,7 +30,7 @@ public class LocalRiscoService {
         return local;
     }
 
-    public void removerLocalRisco(Long id) throws IdNaoEncontradoException {
+    public void removerLocalRisco(long id) throws IdNaoEncontradoException {
 
         LocalRisco local = localRiscoRepository.findById(id)
                 .orElseThrow(() -> new IdNaoEncontradoException("local não encontrado"));
@@ -39,7 +40,7 @@ public class LocalRiscoService {
     }
 
     @Transactional
-    public void atualizarDadosLocalRisco(Long id, LocalRisco local) throws IdNaoEncontradoException {
+    public void atualizarDadosLocalRisco(long id, LocalRisco local) throws IdNaoEncontradoException {
         LocalRisco localAchada = localRiscoRepository.findById(id)
                 .orElseThrow(() -> new IdNaoEncontradoException("Local não encontrado"));
 
@@ -54,44 +55,28 @@ public class LocalRiscoService {
 
     }
 
-    public Optional<LocalRisco> visualizarDadosLocalRiscoEspecifico(Long id)  {
+    public Optional<LocalRisco> visualizarDadosLocalRiscoEspecifico(long id)  {
         return localRiscoRepository.findById(id);
     }
 
-    public List<MotoResponseDto> visualizarMotosQueJaPassaramEstaoNoLocalRisco(Long idLocalRisco) throws IdNaoEncontradoException {
-        List<Moto> motos = localRiscoRepository.findMotosByLocalRisco(idLocalRisco);
-
-        if (motos == null || motos.isEmpty()) {
-            throw new IdNaoEncontradoException("Nenhuma moto encontrada para o pátio com id " + idLocalRisco);
-        }
-
-        return motos.stream()
-                .map(moto -> new MotoResponseDto(
-                        moto.getId_moto(),
-                        moto.getModelo(),
-                        moto.getPlaca(),
-                        moto.getChassi()))
-                .toList();
-    }
 
     public List<LocalRiscoResponseDto> listarLocalRiscos() {
         try {
             return localRiscoRepository.findAll()
                     .stream()
                     .map(local -> new LocalRiscoResponseDto(
-                            local.getIdLocalRisco(),
-                            local.getLogradouro(),
-                            local.getNumero(),
-                            local.getComplemento(),
-                            local.getCep(),
+                            local.getIdLocal(),
+                            local.getNomeLocal(),
+                            local.getLatitude(),
+                            local.getLongitude(),
                             local.getCidade(),
                             local.getUf(),
-                            local.getPais(),
-                            local.getLotacao()
+                            local.getGrauRisco(),
+                            local.getAtivo()
                             ))
                     .toList();
         } catch (Exception e) {
-            System.out.println("Houve um erro ao tentar resgatar todos os pátios: ");
+            System.out.println("Houve um erro ao tentar resgatar todos os locais: ");
             e.printStackTrace();
             return new ArrayList<>();
         }

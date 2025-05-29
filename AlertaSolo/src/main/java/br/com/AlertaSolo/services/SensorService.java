@@ -1,63 +1,74 @@
 package br.com.AlertaSolo.services;
 
-import br.com.UWbike.entity.Ancora;
-import br.com.UWbike.entity.Patio;
-import br.com.UWbike.exceptions.IdNaoEncontradoException;
-import br.com.UWbike.repository.AncoraRepository;
-import br.com.UWbike.repository.PatioRepository;
+
+import br.com.AlertaSolo.entity.LocalRisco;
+import br.com.AlertaSolo.entity.Sensor;
+import br.com.AlertaSolo.entity.Usuario;
+import br.com.AlertaSolo.exceptions.IdNaoEncontradoException;
+import br.com.AlertaSolo.repository.LocalRiscoRepository;
+import br.com.AlertaSolo.repository.SensorRepository;
+import br.com.AlertaSolo.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class SensorService {
 
     @Autowired
-    private PatioRepository patioRepository;
+    private LocalRiscoRepository localRiscoRepository;
     @Autowired
-    private AncoraRepository ancoraRepository;
+    private SensorRepository sensorRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    public Ancora salvarAncoraComPatio(Ancora ancora, Long idPatio) throws IdNaoEncontradoException {
-        Ancora ancoraNova = new Ancora();
+    public Sensor salvarSensor(Sensor sensor, long idLocalRisco) throws IdNaoEncontradoException {
+        Sensor sensorNova = new Sensor();
         try {
-            Patio patio = patioRepository.findById(idPatio)
-                    .orElseThrow(() -> new IdNaoEncontradoException("Pátio com id " + idPatio + " não encontrado"));
+            LocalRisco localRisco = localRiscoRepository.findById(idLocalRisco)
+                    .orElseThrow(() -> new IdNaoEncontradoException("Local com id " + idLocalRisco + " não encontrado"));
 
-            ancora.setPatio(patio);
-            ancoraNova = ancoraRepository.save(ancora);
+            sensor.setLocalRisco(localRisco);
+            sensorNova = sensorRepository.save(sensor);
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-        return ancoraNova;
+        return sensorNova;
     }
 
-    public void removerAncora(Long id) throws IdNaoEncontradoException {
-        Ancora ancoraAchada = ancoraRepository.findById(id)
-                .orElseThrow(() -> new IdNaoEncontradoException("Ancora não encontrada"));
+    public void removerSensor(long id) throws IdNaoEncontradoException {
+        Sensor sensorAchada = sensorRepository.findById(id)
+                .orElseThrow(() -> new IdNaoEncontradoException("Sensor não encontrado"));
 
-        ancoraRepository.deleteById(id);
+        sensorRepository.deleteById(id);
 
-        System.out.println("Ancora: " + ancoraAchada.getId() + ", " + ancoraAchada.getX() + " " + ancoraAchada.getY() + " deletada com sucesso!");
+        System.out.println("Sensor: " + sensorAchada.getIdSensor() + ", " + sensorAchada.getCodigoEsp32() + " " + sensorAchada.getDataInstalacao() + " deletado com sucesso!");
+
+    }
+
+    public Optional<Sensor> visualizarDadosSensorEspecifico(long id)  {
+        return sensorRepository.findById(id);
 
     }
 
     @Transactional
-    public void atualizarDadosAncora(Long id, Ancora ancora) throws IdNaoEncontradoException{
-        Ancora ancoraAchada = ancoraRepository.findById(id)
-                .orElseThrow(() -> new IdNaoEncontradoException("Ancora não encontrada"));
+    public void verificarRiscoDeslizamento(long idLocal,double umidade, double inclinacao, double tremor) {
+        boolean umidadeAlta = umidade >= 80; //se maior que 80% significa alta saturação no solo
+        boolean inclinacaoPerigosa = inclinacao >= 45; // se inclinação maior que 45(graus) ocorre o risco de escorregamento
+        boolean tremorSignificativo = tremor >= 4.0; // se maior que 4.0 na escala Richter se torna um potencial desestabilizador do solo
 
-        ancoraAchada.setX(ancora.getX());
-        ancoraAchada.setY(ancora.getY());
-
-        System.out.println("Ancora: " + ancoraAchada.getId() + ", "
-                + " atualizada com sucesso para: " + ancora.getX() + " " + ancora.getY());
-
+        if (umidadeAlta || inclinacaoPerigosa || tremorSignificativo) {
+            System.out.println("⚠️ RISCO ALTO DETECTADO!");
+            List<Usuario> usuarios = usuarioRepository.findAll();
+            for (Usuario usuario : usuarios) {
+                System.out.println("🔔 Notificar " + usuario.getNome());
+            }
+        } else {
+            System.out.println("✅ Situação estável.");
+        }
     }
 
-    public Optional<Ancora> visualizarDadosAncoraEspecifica(Long id) {
-        return ancoraRepository.findById(id);
-
-    }
 }

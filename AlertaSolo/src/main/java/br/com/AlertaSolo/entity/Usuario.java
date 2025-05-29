@@ -15,13 +15,12 @@ public class Usuario {
 
     }
 
-    public Usuario(String nome, String cpf, Integer idade, String cidade, String uf, LocalDate dataCadastro) {
+    public Usuario(String nome, String cpf, Integer idade, String cidade, String uf) {
         this.nome = nome;
         this.cpf = cpf;
         this.idade = idade;
         this.cidade = cidade;
         this.uf = uf;
-        this.dataCadastro = dataCadastro;
     }
 
     @Id

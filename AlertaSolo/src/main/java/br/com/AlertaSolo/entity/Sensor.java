@@ -13,18 +13,17 @@ public class Sensor {
     public Sensor() {
     }
 
-    public Sensor(LocalRisco localRisco, String codigoEsp32, String status, String tipoSensor, LocalDate dataInstalacao) {
+    public Sensor(LocalRisco localRisco, String codigoEsp32, String status, String tipoSensor) {
         this.localRisco = localRisco;
         this.codigoEsp32 = codigoEsp32;
         this.status = status;
         this.tipoSensor = tipoSensor;
-        this.dataInstalacao = dataInstalacao;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sensor_seq")
     @Column(name = "id_sensor")
-    private Long idSensor;
+    private long idSensor;
 
     @ManyToOne
     @JoinColumn(name = "id_local", nullable = false)
@@ -42,11 +41,11 @@ public class Sensor {
     @Column(name = "data_instalacao")
     private LocalDate dataInstalacao;
 
-    public Long getIdSensor() {
+    public long getIdSensor() {
         return idSensor;
     }
 
-    public void setIdSensor(Long idSensor) {
+    public void setIdSensor(long idSensor) {
         this.idSensor = idSensor;
     }
 
