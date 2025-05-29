@@ -208,6 +208,15 @@ Desenvolver uma aplicação que:
 
 
 
+### POMXML:
+
+![part1pomxmlglobal](https://github.com/user-attachments/assets/1f9a437c-56c4-4346-a055-18cf633f03cd)
+![part2pomxmlglobal](https://github.com/user-attachments/assets/9c946361-d829-418e-b94f-7516e71306be)
+
+### Spring initialzr:
+
+![initialzrglobal](https://github.com/user-attachments/assets/d84d356b-c708-44a7-8966-1e846c538bed)
+
 
 
 
