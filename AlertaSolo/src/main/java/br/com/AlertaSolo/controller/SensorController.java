@@ -82,7 +82,7 @@ public class SensorController {
     )
     @PostMapping("/verificar-risco")
     public ResponseEntity<VerificarRiscoResponseDto> verificarRisco(
-            @Valid @RequestBody VerificarRiscoRequestDto dto) {
+            @Valid @RequestBody VerificarRiscoRequestDto dto) throws IdNaoEncontradoException {
         VerificarRiscoResponseDto resposta =  sensorService.verificarRiscoDeslizamento(dto.getIdLocal(), dto.getUmidade(), dto.getInclinacao(), dto.getTremor());
         return ResponseEntity.ok(resposta);
     }

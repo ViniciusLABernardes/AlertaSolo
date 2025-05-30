@@ -51,23 +51,26 @@ public class SensorService {
     }
 
     @Transactional
-    public VerificarRiscoResponseDto verificarRiscoDeslizamento(Long idLocal, double umidade, double inclinacao, double tremor) {
+    public VerificarRiscoResponseDto verificarRiscoDeslizamento(Long idLocal, double umidade, double inclinacao, double tremor) throws IdNaoEncontradoException {
         boolean umidadeAlta = umidade > 80;
         boolean inclinacaoPerigosa = inclinacao > 30;
         boolean tremorSignificativo = tremor > 5;
 
         VerificarRiscoResponseDto response = new VerificarRiscoResponseDto();
 
+
+
         if (umidadeAlta || inclinacaoPerigosa || tremorSignificativo) {
             response.setRiscoAlto(true);
             response.setMensagem("⚠️ RISCO ALTO DETECTADO!");
 
-            Optional<LocalRisco> optionalLocal = localRiscoRepository.findById(idLocal);
-            if (optionalLocal.isEmpty()) {
-                response.setMensagem("Local não encontrado.");
-                return response;
-            }
-            LocalRisco local = optionalLocal.get();
+
+
+            LocalRisco local = localRiscoRepository.findById(idLocal).orElseThrow(()->new IdNaoEncontradoException("Local não encontrado!"));
+            Sensor sensor = sensorRepository.findByLocalRisco(local).orElseThrow(() -> new IdNaoEncontradoException("Sensor não encontrado!"));
+
+            sensor.setQntdAlerta(sensor.getQntdAlerta() + 1);
+            sensorRepository.save(sensor);
 
             List<Usuario> usuarios = usuarioRepository.findByCidadeAndUf(local.getCidade(), local.getUf());
 

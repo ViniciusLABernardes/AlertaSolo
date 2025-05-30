@@ -43,6 +43,17 @@ public class Sensor {
     @Column(name = "data_instalacao")
     private LocalDate dataInstalacao;
 
+    @Column(name = "qntd_alertas",nullable = false)
+    private int qntdAlerta = 0;
+
+    public int getQntdAlerta() {
+        return qntdAlerta;
+    }
+
+    public void setQntdAlerta(int qntdAlerta) {
+        this.qntdAlerta = qntdAlerta;
+    }
+
     public long getIdSensor() {
         return idSensor;
     }

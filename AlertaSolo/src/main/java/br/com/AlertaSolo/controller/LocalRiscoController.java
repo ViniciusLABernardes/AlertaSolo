@@ -114,7 +114,13 @@ public class LocalRiscoController {
     @GetMapping
     public ResponseEntity<List<LocalRiscoResponseDto>> listarLocalRiscos() {
         List<LocalRiscoResponseDto> localRiscos = localRiscoService.listarLocalRiscos();
-        return ResponseEntity.ok(localRiscos);
+        try{
+            return ResponseEntity.ok(localRiscos);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+
     }
 }
 
