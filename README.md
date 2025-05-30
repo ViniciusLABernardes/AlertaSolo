@@ -63,6 +63,7 @@ Desenvolver uma aplicação que:
   - status
   - tipoSensor (Para quando o esp32 não tiver todos os sensores como modulos, caso tenha colocar Multissensor(Umidade, Inclinação, Tremor)
   - dataInstalação (obtida automaticamente quando cadastrado o sensor)
+  - qntdAlertas
  
 ## Requisições da parte de gerenciamento de usuário:
 
